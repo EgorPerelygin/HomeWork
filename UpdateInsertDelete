@@ -1,0 +1,51 @@
+
+1
+
+DELETE 
+FROM student st 
+WHERE st.date_birth is null
+
+2
+
+UPDATE student 
+SET date_birth = '01.01.1999' 
+WHERE date_birth is null
+
+3
+
+DELETE 
+FROM student
+WHERE id=21
+
+4
+
+UPDATE hobby
+SET risk=risk-0.1
+FROM
+(
+	SELECT hobby_id, count(distinct student_id) as countofstud
+	FROM student_hobby
+	GROUP BY hobby_id
+	ORDER BY countofstud DESC LIMIT 1
+)t
+WHERE hobby.id=t.hobby_id
+select * from hobby
+
+5
+
+UPDATE student st
+SET score =score + 0.01
+FROM student_hobby sh
+WHERE st.id!=sh.student_id and sh.date_finish is not null
+
+6
+
+select * from student_hobby
+DELETE 
+FROM student_hobby
+WHERE date_finish is not null
+
+7
+
+INSERT INTO student_hobby (id, student_id, hobby_id, date_start, date_finish) VALUES (16, 4, 5, '11-15-2009', null)
+
