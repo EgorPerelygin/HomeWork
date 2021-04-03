@@ -1,0 +1,49 @@
+1
+
+SELECT * FROM student st
+WHERE st.score between 4 and 4.5;
+
+2
+
+SELECT st.name, st.surname FROM student st WHERE CAST (st.n_group AS varchar) LIKE '2%'
+
+3
+
+SELECT * FROM student st ORDER BY st.name, st.n_group
+
+4
+
+SELECT * FROM student st WHERE st.score >4 ORDER BY st.score DESC
+
+5
+
+SELECT name, risk FROM hobby h WHERE h.name IN('Футбол','Хоккей')
+
+6
+
+SELECT sh.student_id, sh.hobby_id FROM student_hobby sh WHERE (sh.date_start BETWEEN '09-01-20' AND '12-01-20') AND (sh.date_finish IS NULL)
+
+7
+
+SELECT * FROM student st WHERE st.score >4.5 ORDER BY st.score DESC
+
+8
+
+SELECT * FROM student st WHERE st.score >=4.5 ORDER BY st.score DESC LIMIT 5
+
+
+9
+
+SELECT *,
+CASE
+WHEN hb.risk >=0.8 THEN 'ОЧЕНЬ ВЫСОКИЙ'
+WHEN hb.risk <0.8 AND hb.risk >=0.6 THEN 'ВЫСОКИЙ'
+WHEN hb.risk <0.6 AND hb.risk >=0.4 THEN 'СРЕДНИЙ'
+WHEN hb.risk <0.4 AND hb.risk >=0.2 THEN 'НИЗКИЙ'
+ELSE 'ОЧЕНЬ НИЗКИЙ'
+END AS Category
+FROM hobby hb
+
+10
+
+SELECT * FROM hobby b ORDER BY b.risk DESC LIMIT 3
