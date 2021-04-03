@@ -1,0 +1,92 @@
+1
+select count(*), n_group
+from student
+group by n_group
+
+2
+select max(score), n_group
+from student
+group by n_group
+
+3
+select count(*), surname 
+from student
+group by surname
+
+--4
+
+5
+select avg(score)::real,
+case
+when n_group >= 1000 and n_group <2000 then '1 курс'
+when n_group >= 2000 and n_group <3000 then '2 курс'
+when n_group >= 3000 and n_group <4000 then '3 курс'
+when n_group >= 4000 and n_group <5000 then '4 курс'
+when n_group >= 5000 and n_group <6000 then '5 курс'
+else '6 курс'
+end as courses
+from student
+group by courses
+///////////////
+///////////////
+select avg(score)::real, substr(st.n_group::varchar, 1, 1) || ' Курс'
+from student st
+group by substr(st.n_group::varchar, 1, 1) 
+
+6
+SELECT MAX(score), st.n_group
+FROM student st
+WHERE st.n_group between 1000 and 2000
+GROUP BY (st.n_group)
+ORDER BY max(score) DESC LIMIT 1
+
+//
+
+SELECT MAX(score), st.n_group
+FROM student st
+WHERE st.n_group::varchar like '2%' 
+GROUP BY (st.n_group)
+ORDER BY max(score) DESC LIMIT 1
+7
+SELECT AVG(st.score)::real, st.n_group
+FROM student st
+GROUP BY st.n_group
+HAVING AVG(st.score) <= 3.5
+ORDER BY AVG(st.score) ASC
+8
+SELECT st.n_group, COUNT(*), MAX(st.score)::real, AVG(st.score)::real, MIN(st.score)::real
+FROM student st
+GROUP BY st.n_group
+ORDER BY COUNT(*) DESC
+9
+SELECT st.n_group,st.name, st.surname, MAX(st.score)::real
+FROM student st
+WHERE st.n_group=2281
+GROUP BY st.name, st.surname, st.n_group
+ORDER BY MAX(st.score) DESC 
+
+//
+select name,surname, score, n_group
+from student st
+where st.score=(select max(score)
+from student str
+			   where str.n_group='1283') and st.n_group='1283'
+
+
+////////
+select * from student 
+where n_group IN (
+	select DISTINCT n_group
+from student
+WHERE n_group NOT IN (1283, 2281))
+
+
+10
+select * 
+from student s
+inner join
+(select n_group, max(score) as ms
+from student
+group by n_group) max_score
+on s.n_group=max_score.n_group and s.score = max_score.ms
+LIMIT 1
